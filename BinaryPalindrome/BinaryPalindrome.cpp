@@ -14,6 +14,8 @@ int main()
 
 	do
 	{
+		
+		bool emptyRange = true;
 		std::cout << "Enter range of nonnegative, integer numbers (first minimum number, then maximum)\n";
 
 		std::cin >> min;
@@ -22,7 +24,7 @@ int main()
 		if (!std::cin.good())
 		{
 			std::cin.clear();
-			std::cin.ignore();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			std::cout << "\nYour inputs must be numbers\n";
 			continue;
 		}
@@ -42,8 +44,14 @@ int main()
 		for (int i = min; i < max; i++)
 		{
 			if (BinaryPalindrome(i))
+			{
 				std::cout << i << " b: " << ConvertToBinary(i) << std::endl;
+				emptyRange = false;
+			}
 		}
+
+		if (emptyRange)
+			std::cout << "There were no binary palindromes in the given range." << std::endl;
 
 		std::cout << "\nPress 1 to start again.\n";
 
@@ -64,12 +72,24 @@ std::string ConvertToBinary(int number)
 		number /= 2;
 	}
 
-	return Reverse(result);
+	return ReverseManual(result);
 }
 
 std::string Reverse(std::string text)
 {
 	std::reverse(text.begin(), text.end());
+	return text;
+}
+
+std::string ReverseManual(std::string text)
+{
+	std::string result = "";
+
+	for (int i = text.length() - 1; i > 0; i--)
+	{
+		result += text[i];
+	}
+
 	return text;
 }
 
